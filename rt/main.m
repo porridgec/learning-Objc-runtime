@@ -118,7 +118,7 @@ int main(int argc, const char * argv[]) {
         
         Gp *geping = [[Gp alloc] init];
         geping.name = @"葛平";
-        ((void(*)(id, SEL))objc_msgSend)((id)geping, @selector(transformToBlueCat));
+        ((void(*)(id, SEL))objc_msgSend)((id)geping, @selector(act));
     }
     return 0;
 }

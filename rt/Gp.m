@@ -20,16 +20,22 @@
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-    if ([NSStringFromSelector(aSelector) isEqualToString:@"transformToBlueCat"]) {
+    if ([NSStringFromSelector(aSelector) isEqualToString:@"act"]) {
         return [NSMethodSignature signatureWithObjCTypes:"v@:"];
     }
     return [super methodSignatureForSelector:aSelector];
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
-    Gt *wuke = [[Gt alloc] init];
-    wuke.name = @"吴克";
-    [anInvocation invokeWithTarget:wuke];
+    [anInvocation setSelector:@selector(say)];
+    [anInvocation invokeWithTarget:self];
 }
 
+- (void)doesNotRecognizeSelector:(SEL)aSelector {
+    NSLog(@"%@失败",NSStringFromSelector(aSelector));
+}
+
+- (void)say {
+    NSLog(@"小朋友们，还记得我是谁吗？");
+}
 @end
