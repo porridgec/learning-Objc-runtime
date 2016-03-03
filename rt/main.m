@@ -8,40 +8,79 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
+#import <objc/message.h>
+#import "Gt.h"
 
-void sayFunc(id self, SEL _cmd, id some) {
-    NSLog(@"他说,我叫%@,今年%@岁了,%@！",[self valueForKey:@"name"],[self valueForKey:@"age"],some);
+void sayFunc(id self, SEL _cmd) {
+    NSLog(@"他说,我来自%@,我叫%@,今年%@岁了,我是%@！",[self valueForKey:@"locality"],[self valueForKey:@"name"],[self valueForKey:@"age"],[self valueForKey:@"role"]);
 }
 
+//2016.03.02
+//int main(int argc, const char * argv[]) {
+//    @autoreleasepool {
+//        // insert code here...
+//        NSLog(@"Hello, World!");
+//
+//        //动态注册一个新类
+//        Class Gt = objc_allocateClassPair([NSObject class], "Gt", 0);
+//        class_addIvar(Gt, "_name", sizeof(NSString*), log2(sizeof(NSString*)), @encode(NSString*));
+//        class_addIvar(Gt, "_age", sizeof(NSInteger), sizeof(NSInteger), @encode(NSInteger));
+//
+//        //注册一个新的方法
+//        SEL s = sel_registerName("say");
+//        class_addMethod(Gt, s, (IMP)sayFunc, "v@:@");
+//        
+//        objc_registerClassPair(Gt);
+//        
+//        id wuke = [[Gt alloc] init];
+//        //[wuke setValue:@"吴克" forKey:@"name"];
+//        Ivar nameIvar = class_getInstanceVariable(Gt, "_name");
+//        object_setIvar(wuke, nameIvar, @"吴克");
+//        
+//        [wuke setValue:@5 forKey:@"age"];
+////        Ivar ageIvar = class_getInstanceVariable(Gt, "_age");
+////        object_setIvar(wuke, ageIvar, @5);
+//        
+//        
+//        ((void(*)(id, SEL, id))objc_msgSend)(wuke, s ,@"我是超威蓝猫！");
+//        
+//        wuke = nil;
+//        
+//        objc_disposeClassPair(Gt);
+//        
+//    }
+//    return 0;
+//}
+
+//2016.03.03
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        // insert code here...
-        NSLog(@"Hello, World!");
+        //
+        Gt *wuke = [[Gt alloc] init];
+        wuke.name = @"吴克";
+        wuke.age = 5;
+        [wuke setValue:@"石家庄" forKey:@"locality"];
+        [wuke setValue:@"超威蓝猫" forKey:@"role"];
         
-        Class Gt = objc_allocateClassPair([NSObject class], "Gt", 0);
-        class_addIvar(Gt, "_name", sizeof(NSString*), log2(sizeof(NSString*)), @encode(NSString*));
-        class_addIvar(Gt, "_age", sizeof(NSInteger), sizeof(NSInteger), @encode(NSInteger));
+        SEL s = sel_registerName("say:");
+        class_addMethod([Gt class], s, (IMP)sayFunc, "v@:@");
         
-        SEL s = sel_registerName("say");
-        class_addMethod(Gt, s, (IMP)sayFunc, "v@:@");
-        
-        objc_registerClassPair(Gt);
-        
-        id wuke = [[Gt alloc] init];
-        //[wuke setValue:@"吴克" forKey:@"name"];
-        Ivar nameIvar = class_getInstanceVariable(Gt, "_name");
-        object_setIvar(wuke, nameIvar, @"吴克");
-        
-        [wuke setValue:@5 forKey:@"age"];
-//        Ivar ageIvar = class_getInstanceVariable(Gt, "_age");
-//        object_setIvar(wuke, ageIvar, @5);
-        
-        
-        ((void(*)(id, SEL, id))objc_msgSend)(wuke, s ,@"我是超威蓝猫！");
-        
-        wuke = nil;
-        
-        objc_disposeClassPair(Gt);
+        ((void(*)(id, SEL))objc_msgSend)(wuke, s);
+    
+//        NSDictionary *propertyResultDic = [wuke allProperties];
+//        for (NSString *propertyName in propertyResultDic.allKeys) {
+//            NSLog(@"propertyName:%@, propertyValue:%@",propertyName, propertyResultDic[propertyName]);
+//        }
+//
+//        NSDictionary *ivarResultDic = [wuke allIvars];
+//        for (NSString *ivarName in ivarResultDic.allKeys) {
+//            NSLog(@"ivarName:%@, ivarValue:%@",ivarName, ivarResultDic[ivarName]);
+//        }
+//
+//        NSDictionary *methodResultDic = [wuke allMethods];
+//        for (NSString *methodName in methodResultDic.allKeys) {
+//            NSLog(@"methodName:%@, argumentsCount:%@", methodName, methodResultDic[methodName]);
+//        }
         
     }
     return 0;
