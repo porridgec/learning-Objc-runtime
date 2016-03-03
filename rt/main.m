@@ -56,7 +56,7 @@ void sayFunc(id self, SEL _cmd) {
 //2016.03.03
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        //
+//        Objc runtime basic...
 //        Gt *wuke = [[Gt alloc] init];
 //        wuke.name = @"吴克";
 //        wuke.age = 5;
@@ -84,11 +84,13 @@ int main(int argc, const char * argv[]) {
 //            NSLog(@"methodName:%@, argumentsCount:%@", methodName, methodResultDic[methodName]);
 //        }
         
+//        category...
 //        wuke.callback = ^(){
 //            NSLog(@"从人群中钻出一个大光头！");
 //        };
 //        wuke.callback();
-        
+
+//        NSCoding...
 //        NSString *path = [NSString stringWithFormat:@"%@/Desktop/Gt",NSHomeDirectory()];
 //        //归档
 //        [NSKeyedArchiver archiveRootObject:wuke toFile:path];
@@ -97,16 +99,21 @@ int main(int argc, const char * argv[]) {
 //        anotherWuke.height = 20;
 //        ((void(*)(id, SEL))objc_msgSend)(anotherWuke, s);
         
-        NSDictionary *dict = @{
-                               @"name" : @"吴克",
-                               @"age" : @18,
-                               @"role" : @"超威蓝猫"
-                               };
-        Gt *wuke = [[Gt alloc] initWithDictionary:dict];
-        NSLog(@"他说,我叫%@,今年%@岁了,我是%@", wuke.name, wuke.age, wuke.role);
+//        NSDictionary *dict = @{
+//                               @"name" : @"吴克",
+//                               @"age" : @18,
+//                               @"role" : @"超威蓝猫"
+//                               };
+//        Gt *wuke = [[Gt alloc] initWithDictionary:dict];
+//        NSLog(@"他说,我叫%@,今年%@岁了,我是%@", wuke.name, wuke.age, wuke.role);
+//        
+//        NSDictionary *newDict = [wuke convertToDictionary];
+//        NSLog(@"%@",newDict);
         
-        NSDictionary *newDict = [wuke convertToDictionary];
-        NSLog(@"%@",newDict);
+        //dynamic msg resolve...
+        Gt *wuke = [[Gt alloc] init];
+        wuke.name = @"吴克";
+        [wuke transformToBlueCat];
     }
     return 0;
 }

@@ -12,6 +12,18 @@
 
 @implementation Gt
 
++ (BOOL)resolveInstanceMethod:(SEL)sel {
+    if ([NSStringFromSelector(sel) isEqualToString:@"transformToBlueCat"]) {
+        class_addMethod([self class], sel, (IMP)transformNow, "v@:");
+        return YES;
+    }
+    return [super resolveInstanceMethod:sel];
+}
+
+void transformNow(id self,SEL cmd) {
+    NSLog(@"%@变成了超威蓝猫！",((Gt*)self).name);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {

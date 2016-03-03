@@ -25,4 +25,6 @@
 
 - (NSDictionary *)convertToDictionary;
 
+- (void)transformToBlueCat;
+
 @end
