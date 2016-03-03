@@ -11,6 +11,7 @@
 #import <objc/message.h>
 #import "Gt.h"
 #import "Gt+Associated.h"
+#import "Gp.h"
 
 void sayFunc(id self, SEL _cmd) {
     NSLog(@"他说,我来自%@,我叫%@,今年%@岁了,我是%@,我身高%@cm！",[self valueForKey:@"locality"],[self valueForKey:@"name"],[self valueForKey:@"age"],[self valueForKey:@"role"],[self valueForKey:@"height"]);
@@ -111,9 +112,13 @@ int main(int argc, const char * argv[]) {
 //        NSLog(@"%@",newDict);
         
         //dynamic msg resolve...
-        Gt *wuke = [[Gt alloc] init];
-        wuke.name = @"吴克";
-        [wuke transformToBlueCat];
+//        Gt *wuke = [[Gt alloc] init];
+//        wuke.name = @"吴克";
+//        [wuke transformToBlueCat];
+        
+        Gp *geping = [[Gp alloc] init];
+        geping.name = @"葛平";
+        ((void(*)(id, SEL))objc_msgSend)((id)geping, @selector(transformToBlueCat));
     }
     return 0;
 }
