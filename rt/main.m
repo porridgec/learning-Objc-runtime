@@ -10,9 +10,10 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import "Gt.h"
+#import "Gt+Associated.h"
 
 void sayFunc(id self, SEL _cmd) {
-    NSLog(@"他说,我来自%@,我叫%@,今年%@岁了,我是%@！",[self valueForKey:@"locality"],[self valueForKey:@"name"],[self valueForKey:@"age"],[self valueForKey:@"role"]);
+    NSLog(@"他说,我来自%@,我叫%@,今年%@岁了,我是%@,我身高%@cm！",[self valueForKey:@"locality"],[self valueForKey:@"name"],[self valueForKey:@"age"],[self valueForKey:@"role"],[self valueForKey:@"height"]);
 }
 
 //2016.03.02
@@ -61,6 +62,7 @@ int main(int argc, const char * argv[]) {
         wuke.age = 5;
         [wuke setValue:@"石家庄" forKey:@"locality"];
         [wuke setValue:@"超威蓝猫" forKey:@"role"];
+        wuke.height = 20;
         
         SEL s = sel_registerName("say:");
         class_addMethod([Gt class], s, (IMP)sayFunc, "v@:@");
@@ -81,6 +83,11 @@ int main(int argc, const char * argv[]) {
 //        for (NSString *methodName in methodResultDic.allKeys) {
 //            NSLog(@"methodName:%@, argumentsCount:%@", methodName, methodResultDic[methodName]);
 //        }
+        
+        wuke.callback = ^(){
+            NSLog(@"从人群中钻出一个大光头！");
+        };
+        wuke.callback();
         
     }
     return 0;
