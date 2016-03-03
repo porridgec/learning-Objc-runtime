@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Gt : NSObject
+@interface Gt : NSObject <NSCoding>
 {
     NSString *_locality;
     NSString *_role;

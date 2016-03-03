@@ -84,10 +84,18 @@ int main(int argc, const char * argv[]) {
 //            NSLog(@"methodName:%@, argumentsCount:%@", methodName, methodResultDic[methodName]);
 //        }
         
-        wuke.callback = ^(){
-            NSLog(@"从人群中钻出一个大光头！");
-        };
-        wuke.callback();
+//        wuke.callback = ^(){
+//            NSLog(@"从人群中钻出一个大光头！");
+//        };
+//        wuke.callback();
+        
+        NSString *path = [NSString stringWithFormat:@"%@/Gt",NSHomeDirectory()];
+        //归档
+        [NSKeyedArchiver archiveRootObject:wuke toFile:path];
+        //解档
+        Gt *anotherWuke = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+        anotherWuke.height = 20;
+        ((void(*)(id, SEL))objc_msgSend)(anotherWuke, s);
         
     }
     return 0;
