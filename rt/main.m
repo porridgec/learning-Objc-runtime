@@ -57,17 +57,17 @@ void sayFunc(id self, SEL _cmd) {
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         //
-        Gt *wuke = [[Gt alloc] init];
-        wuke.name = @"吴克";
-        wuke.age = 5;
-        [wuke setValue:@"石家庄" forKey:@"locality"];
-        [wuke setValue:@"超威蓝猫" forKey:@"role"];
-        wuke.height = 20;
-        
-        SEL s = sel_registerName("say:");
-        class_addMethod([Gt class], s, (IMP)sayFunc, "v@:@");
-        
-        ((void(*)(id, SEL))objc_msgSend)(wuke, s);
+//        Gt *wuke = [[Gt alloc] init];
+//        wuke.name = @"吴克";
+//        wuke.age = 5;
+//        [wuke setValue:@"石家庄" forKey:@"locality"];
+//        [wuke setValue:@"超威蓝猫" forKey:@"role"];
+//        wuke.height = 20;
+//        
+//        SEL s = sel_registerName("say:");
+//        class_addMethod([Gt class], s, (IMP)sayFunc, "v@:@");
+//        
+//        ((void(*)(id, SEL))objc_msgSend)(wuke, s);
     
 //        NSDictionary *propertyResultDic = [wuke allProperties];
 //        for (NSString *propertyName in propertyResultDic.allKeys) {
@@ -89,14 +89,24 @@ int main(int argc, const char * argv[]) {
 //        };
 //        wuke.callback();
         
-        NSString *path = [NSString stringWithFormat:@"%@/Gt",NSHomeDirectory()];
-        //归档
-        [NSKeyedArchiver archiveRootObject:wuke toFile:path];
-        //解档
-        Gt *anotherWuke = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-        anotherWuke.height = 20;
-        ((void(*)(id, SEL))objc_msgSend)(anotherWuke, s);
+//        NSString *path = [NSString stringWithFormat:@"%@/Desktop/Gt",NSHomeDirectory()];
+//        //归档
+//        [NSKeyedArchiver archiveRootObject:wuke toFile:path];
+//        //解档
+//        Gt *anotherWuke = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+//        anotherWuke.height = 20;
+//        ((void(*)(id, SEL))objc_msgSend)(anotherWuke, s);
         
+        NSDictionary *dict = @{
+                               @"name" : @"吴克",
+                               @"age" : @18,
+                               @"role" : @"超威蓝猫"
+                               };
+        Gt *wuke = [[Gt alloc] initWithDictionary:dict];
+        NSLog(@"他说,我叫%@,今年%@岁了,我是%@", wuke.name, wuke.age, wuke.role);
+        
+        NSDictionary *newDict = [wuke convertToDictionary];
+        NSLog(@"%@",newDict);
     }
     return 0;
 }

@@ -12,6 +12,8 @@
 
 @implementation Gt
 
+#pragma mark - NSCoding
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     if (self) {
@@ -42,6 +44,68 @@
     free(ivars);
 }
 
+#pragma mark - Dict
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        for (NSString *key in dictionary.allKeys) {
+            id value = dictionary[key];
+            
+            SEL setter = [self propertySetterByKey:key];
+            if (setter) {
+                ((void(*)(id, SEL, id))objc_msgSend)(self, setter, value);
+            }
+        }
+    }
+    return self;
+}
+
+- (NSDictionary *)convertToDictionary {
+    unsigned int count = 0;
+    objc_property_t *properties = class_copyPropertyList([self class], &count);
+    
+    if (count != 0) {
+        NSMutableDictionary *resultDict = [@{} mutableCopy];
+        
+        for (NSUInteger i = 0; i < count; i ++) {
+            const char *propertyName = property_getName(properties[i]);
+            NSString *name = [NSString stringWithUTF8String:propertyName];
+            
+            SEL getter = [self propertyGetterByKey:name];
+            if (getter) {
+                id value = ((id(*)(id, SEL))objc_msgSend)(self, getter);
+                resultDict[name] = value ? : @"cannot assgin nil";
+            }
+        }
+        free(properties);
+        return resultDict;
+    }
+    free(properties);
+    return nil;
+}
+
+
+- (SEL)propertySetterByKey:(NSString *)key {
+    NSString *propertySetterName = [NSString stringWithFormat:@"set%@:",key.capitalizedString];
+    
+    SEL setter = NSSelectorFromString(propertySetterName);
+    if ([self respondsToSelector:setter]) {
+        return setter;
+    }
+    return nil;
+}
+
+- (SEL)propertyGetterByKey:(NSString *)key {
+    SEL getter = NSSelectorFromString(key);
+    if ([self respondsToSelector:getter]) {
+        return getter;
+    }
+    return nil;
+}
+
+#pragma mark - basic runtime
+
 - (NSDictionary *)allProperties {
     unsigned int count = 0;
     objc_property_t *properties = class_copyPropertyList([self class], &count);
@@ -59,6 +123,7 @@
     
     return resultDict;
 }
+
 
 - (NSDictionary *)allIvars {
     unsigned int count = 0;
@@ -95,5 +160,6 @@
     free(methods);
     return resultDict;
 }
+
 
 @end

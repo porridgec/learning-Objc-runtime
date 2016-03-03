@@ -11,14 +11,18 @@
 @interface Gt : NSObject <NSCoding>
 {
     NSString *_locality;
-    NSString *_role;
 }
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, assign) NSInteger age;
+@property (nonatomic, strong) NSNumber *age;
+@property (nonatomic, copy) NSString *role;
 
 - (NSDictionary *)allProperties;
 - (NSDictionary *)allIvars;
 - (NSDictionary *)allMethods;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+- (NSDictionary *)convertToDictionary;
 
 @end
