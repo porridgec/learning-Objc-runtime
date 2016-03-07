@@ -112,13 +112,16 @@ int main(int argc, const char * argv[]) {
 //        NSLog(@"%@",newDict);
         
         //dynamic msg resolve...
-//        Gt *wuke = [[Gt alloc] init];
-//        wuke.name = @"吴克";
-//        [wuke transformToBlueCat];
+        Gt *wuke = [[Gt alloc] init];
+        wuke.name = @"吴克";
+        [wuke transformToBlueCat];
+        wuke.test = @"测试";
+        NSLog(@"%@\n",wuke.test);
         
         Gp *geping = [[Gp alloc] init];
         geping.name = @"葛平";
         ((void(*)(id, SEL))objc_msgSend)((id)geping, @selector(act));
+        
     }
     return 0;
 }

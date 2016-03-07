@@ -9,6 +9,12 @@
 #import "Gp.h"
 #import "Gt.h"
 
+@interface Gp ()
+
+- (void)say;
+
+@end
+
 @implementation Gp
 
 + (BOOL)resolveInstanceMethod:(SEL)sel {
@@ -36,6 +42,6 @@
 }
 
 - (void)say {
-    NSLog(@"小朋友们，还记得我是谁吗？");
+    NSLog(@"%@:小朋友们，还记得我是谁吗？",self.name);
 }
 @end

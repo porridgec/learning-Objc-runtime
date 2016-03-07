@@ -15,4 +15,6 @@ typedef void (^CodingCallback)();
 @property (nonatomic, assign) NSInteger height;
 @property (nonatomic, copy) CodingCallback callback;
 
+@property (nonatomic, strong) NSString *test;
+
 @end

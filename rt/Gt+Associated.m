@@ -9,6 +9,8 @@
 #import "Gt+Associated.h"
 #import <objc/runtime.h>
 
+static char kTestKey;
+
 @implementation Gt (Associated)
 
 - (NSInteger)height {
@@ -25,6 +27,14 @@
 
 - (void)setCallback:(CodingCallback)callback {
     objc_setAssociatedObject(self, @selector(callback), callback, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (NSString *)test {
+    return objc_getAssociatedObject(self, &kTestKey);
+}
+
+- (void)setTest:(NSString *)test {
+    objc_setAssociatedObject(self, &kTestKey, test, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 @end
