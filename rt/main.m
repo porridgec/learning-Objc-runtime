@@ -14,7 +14,7 @@
 #import "Gp.h"
 
 void sayFunc(id self, SEL _cmd) {
-    NSLog(@"他说,我来自%@,我叫%@,今年%@岁了,我是%@,我身高%@cm！",[self valueForKey:@"locality"],[self valueForKey:@"name"],[self valueForKey:@"age"],[self valueForKey:@"role"],[self valueForKey:@"height"]);
+    NSLog(@"他说,我来自%@,我叫%@,今年%@岁了,我是%@,我身高%@cm！",[self valueForKey:@"locality"],[self valueForKey:@"name"],[self valueForKey:@"age"],[self valueForKey:@"role"],[self valueForKey:@"height "]);
 }
 
 //2016.03.02
